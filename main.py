@@ -7,11 +7,17 @@ import argparse
 import common as c
 import broadcast as b
 import feed as f
+import sms
 
 user_name = os.environ['INSTA_USER']
 password = os.environ['INSTA_PASSWORD']
-
 print('using creds: ', user_name, password)
+
+twil_sid = os.environ['TWIL_SID']
+twil_token = os.environ['TWIL_TOKEN']
+twil_from = os.environ['TWIL_FROM']
+twil_to = os.environ['TWIL_TO']
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('cmd')
@@ -59,6 +65,11 @@ elif command == "broadcast":
 
         is_broadcasting = b.check_livestream(api, userid)
         log_color = "GREEN" if is_broadcasting else "RED"
+
+        if log_color == "GREEN":
+            numbers = twil_to.split(',')
+            sms.send_multiple(twil_sid, twil_token, twil_from, numbers, "John is online!")
+
         message = "{0}: {1} --- {2}".format(userid, is_broadcasting, str(datetime.now()))
         c.seperator(log_color)
         c.log(message, log_color)
@@ -66,7 +77,7 @@ elif command == "broadcast":
 
         time.sleep(60)
 else:
-    c.seperator("RED")
+    c.seperator("YELLOW")
     c.log("You passed a bad command", "YELLOW")
 
 
