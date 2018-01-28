@@ -1,0 +1,12 @@
+.env
+env
+settings.json
+venv
+__pycache__
+
+*.pyc
+*.sqlite
+*.coverage
+.DS_Store
+env.sh
+migrations
