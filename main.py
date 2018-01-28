@@ -66,7 +66,7 @@ elif command == "broadcast":
         is_broadcasting = b.check_livestream(api, userid)
         log_color = "GREEN" if is_broadcasting else "RED"
 
-        if log_color == "GREEN":
+        if is_broadcasting:
             numbers = twil_to.split(',')
             sms.send_multiple(twil_sid, twil_token, twil_from, numbers, "John is online!")
 

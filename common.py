@@ -1,6 +1,9 @@
 import codecs
 import os
 import sys
+import logging
+
+logging.basicConfig(filename="run.log", level=logging.INFO)
 
 def to_json(python_object):
     if isinstance(python_object, bytes):
@@ -56,12 +59,16 @@ def supports_color():
     return True
 
 def log(string, color):
+	logging.info(string)
+
 	if not supports_color():
 		print(string)
 	else:
 		print('\033[1m' + colors(color) + string + colors("ENDC"))
 
 def seperator(color):
+	logging.info("-" * 70)
+	
 	if not supports_color():
 		print("-" * 70)
 	else:

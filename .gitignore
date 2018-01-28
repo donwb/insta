@@ -1,6 +1,7 @@
 .env
 env
 settings.json
+run.log
 venv
 __pycache__
 
