@@ -1,12 +1,18 @@
 from instagram_private_api import Client, ClientCompatPatch
 import json
 import os
+import time
 import common as c
+import broadcast as b
+import feed as f
 
 user_name = os.environ['INSTA_USER']
 password = os.environ['INSTA_PASSWORD']
+test_user = os.environ['TEST_USER_ID']
+run_user = os.environ['RUN_USER_ID']
 
 print('using creds: ', user_name, password)
+print('Users: ', test_user, run_user)
 
 # check to see if we have a cached settings file
 use_cached = os.path.isfile('settings.json')
@@ -29,14 +35,19 @@ else:
     with open('settings.json', 'w') as outfile:
         json.dump(cached_auth, outfile, default=c.to_json)
 
+# f.get_feed_items(api)
+# uid = f.get_userid(api, test_user)
 
-# this is the actual api call
-results = api.feed_timeline()
-items = [item for item in results.get('feed_items', [])
-    if item.get('media_or_ad')]
+while True:
 
-for item in items:
-    # print(item['media_or_ad']['code'])
-    print(item['media_or_ad']['user']['username'])
-    
+    is_broadcasting = b.check_livestream(api, test_user)
+    log_color = "GREEN" if is_broadcasting else "RED"
+    message = "{0}: {1} ".format(test_user, is_broadcasting)
+    c.seperator(log_color)
+    c.log(message, log_color)
+    print('\n')
+
+    time.sleep(15)
+
+
 
