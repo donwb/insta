@@ -2,17 +2,28 @@ from instagram_private_api import Client, ClientCompatPatch
 import json
 import os
 import time
+from datetime import datetime
+import argparse
 import common as c
 import broadcast as b
 import feed as f
 
 user_name = os.environ['INSTA_USER']
 password = os.environ['INSTA_PASSWORD']
-test_user = os.environ['TEST_USER_ID']
-run_user = os.environ['RUN_USER_ID']
 
 print('using creds: ', user_name, password)
-print('Users: ', test_user, run_user)
+
+parser = argparse.ArgumentParser()
+parser.add_argument('cmd')
+parser.add_argument('arg')
+args = parser.parse_args()
+
+command = args.cmd
+arguement = args.arg
+
+print('cmd {}'.format(command))
+print('arg {}'.format(arguement))
+
 
 # check to see if we have a cached settings file
 use_cached = os.path.isfile('settings.json')
@@ -35,19 +46,28 @@ else:
     with open('settings.json', 'w') as outfile:
         json.dump(cached_auth, outfile, default=c.to_json)
 
-# f.get_feed_items(api)
-# uid = f.get_userid(api, test_user)
+# init the userid
+userid = 999
 
-while True:
+if command == "user":
+    # f.get_feed_items(api)
+    uid = f.get_userid(api, arguement)
+    c.log("Userid: {}".format(uid), "YELLOW")
+elif command == "broadcast":
+    while True:
+        userid = arguement
 
-    is_broadcasting = b.check_livestream(api, test_user)
-    log_color = "GREEN" if is_broadcasting else "RED"
-    message = "{0}: {1} ".format(test_user, is_broadcasting)
-    c.seperator(log_color)
-    c.log(message, log_color)
-    print('\n')
+        is_broadcasting = b.check_livestream(api, userid)
+        log_color = "GREEN" if is_broadcasting else "RED"
+        message = "{0}: {1} --- {2}".format(userid, is_broadcasting, str(datetime.now()))
+        c.seperator(log_color)
+        c.log(message, log_color)
+        print('\n')
 
-    time.sleep(15)
+        time.sleep(60)
+else:
+    c.seperator("RED")
+    c.log("You passed a bad command", "YELLOW")
 
 
 

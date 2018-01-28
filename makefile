@@ -11,6 +11,15 @@ $(info $$TEST_USER_ID is [${TEST_USER_ID}])
 $(info $$RUN_USER_ID is [${RUN_USER_ID}])
 
 all:
-	python3 main.py
+	python3 main.py broadcast ${TEST_USER_ID}
 
-.PHONY: all 
+test:
+	python3 main.py user ${TEST_USER}
+
+find:
+	python3 main.py user ${USER}
+
+user:
+	python3 main.py broadcast ${USERID}
+
+.PHONY: all test find user
