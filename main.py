@@ -37,7 +37,7 @@ use_cached = os.path.isfile('settings.json')
 # this avoids hitting the login to many times and getting blocked
 if use_cached:
     print("Settings file found, using cached creds...")
-    
+
     with open('settings.json') as file_data:
         cached_auth = json.load(file_data, object_hook=c.from_json)
         api = Client(
@@ -62,7 +62,7 @@ if command == "user":
 elif command == "broadcast":
     while True:
         userid = arguement
-        try:    
+        try:
             is_broadcasting = b.check_livestream(api, userid)
             log_color = "GREEN" if is_broadcasting else "RED"
 
@@ -70,7 +70,7 @@ elif command == "broadcast":
                 numbers = twil_to.split(',')
                 sms.send_multiple(twil_sid, twil_token, twil_from, numbers, "John is online!")
 
-            message = "{0}: {1} --- {2}".format(userid, is_broadcasting, str(datetime.now()))
+            message = "{0}: {1} --- {2}\n".format(userid, is_broadcasting, str(datetime.now()))
             c.seperator(log_color)
             c.log(message, log_color)
             print('\n')
@@ -78,7 +78,7 @@ elif command == "broadcast":
             c.seperator("YELLOW")
             c.log("An error occured", "YELLOW")
 
-        time.sleep(15)
+        time.sleep(45)
 else:
     c.seperator("YELLOW")
     c.log("You passed a bad command", "YELLOW")
