@@ -62,20 +62,23 @@ if command == "user":
 elif command == "broadcast":
     while True:
         userid = arguement
+        try:    
+            is_broadcasting = b.check_livestream(api, userid)
+            log_color = "GREEN" if is_broadcasting else "RED"
 
-        is_broadcasting = b.check_livestream(api, userid)
-        log_color = "GREEN" if is_broadcasting else "RED"
+            if is_broadcasting:
+                numbers = twil_to.split(',')
+                sms.send_multiple(twil_sid, twil_token, twil_from, numbers, "John is online!")
 
-        if is_broadcasting:
-            numbers = twil_to.split(',')
-            sms.send_multiple(twil_sid, twil_token, twil_from, numbers, "John is online!")
+            message = "{0}: {1} --- {2}".format(userid, is_broadcasting, str(datetime.now()))
+            c.seperator(log_color)
+            c.log(message, log_color)
+            print('\n')
+        except:
+            c.seperator("YELLOW")
+            c.log("An error occured", "YELLOW")
 
-        message = "{0}: {1} --- {2}".format(userid, is_broadcasting, str(datetime.now()))
-        c.seperator(log_color)
-        c.log(message, log_color)
-        print('\n')
-
-        time.sleep(60)
+        time.sleep(15)
 else:
     c.seperator("YELLOW")
     c.log("You passed a bad command", "YELLOW")
