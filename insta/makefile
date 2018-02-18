@@ -11,7 +11,7 @@ $(info $$TEST_USER_ID is [${TEST_USER_ID}])
 $(info $$RUN_USER_ID is [${RUN_USER_ID}])
 
 all:
-	python3 main.py broadcast ${TEST_USER_ID}
+	python3 cli.py broadcast ${TEST_USER_ID}
 
 test:
 	python3 main.py user ${TEST_USER}
