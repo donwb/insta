@@ -14,12 +14,12 @@ all:
 	python3 cli.py broadcast ${TEST_USER_ID}
 
 test:
-	python3 main.py user ${TEST_USER}
+	python3 cli.py user ${TEST_USER}
 
 find:
-	python3 main.py user ${USER}
+	python3 cli.py user ${USER}
 
 user:
-	python3 main.py broadcast ${USERID}
+	python3 cli.py broadcast ${USERID}
 
 .PHONY: all test find user
