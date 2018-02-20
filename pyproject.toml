@@ -1,0 +1,13 @@
+[build-system]
+requires = ["flit"]
+build-backend = "flit.buildapi"
+
+[tool.flit.metadata]
+module = "insta"
+author = "don browning"
+author-email = "osdev@me.com"
+home-page = "https://github.com/donwb/insta"
+classifiers = ["License :: OSI Approved :: MIT License"]
+
+[tool.flit.scripts]
+flit = "insta.cli:main"
